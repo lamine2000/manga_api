@@ -13,15 +13,17 @@ def get_about():
 def get_all_images():
     IMAGES = []
     for name in data['pages']:
-        for images in data['pages'][name]['name']:
-            IMAGES.append(images)
+        IMAGES.extend(iter(data['pages'][name]['name']))
     return IMAGES
 
 
 def get_specifique(id: str):
     for _ in data['pages']:
-        tester = [data['pages'][id] if id in data['pages'] else {f'id {id}: not in the database'}]
-        return tester
+        return [
+            data['pages'][id]
+            if id in data['pages']
+            else {f'id {id}: not in the database'}
+        ]
 
 
 def get_last_chapter():
@@ -30,16 +32,17 @@ def get_last_chapter():
 
 
 def get_last_five_chapter():
-    FIVE_CHAPTER = []
-    for name in data['pages']:
-        FIVE_CHAPTER.append(data['pages'][name])
+    FIVE_CHAPTER = [data['pages'][name] for name in data['pages']]
     return FIVE_CHAPTER[:5]
 
 
 def get_name_only(id: str):
     for _ in data['pages']:
-        tester = [data['pages'][id]['name'] if id in data['pages'] else {f"id {id}: not in the database"}]
-        return tester
+        return [
+            data['pages'][id]['name']
+            if id in data['pages']
+            else {f"id {id}: not in the database"}
+        ]
 
 
 def get_number_chapter_only(id: str, number_page: str):

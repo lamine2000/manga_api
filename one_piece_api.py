@@ -1,8 +1,8 @@
 import uvicorn
 from fastapi import FastAPI, Path
 
-from views import get_all_images, get_about, get_specifique, get_last_chapter, get_last_five_chapter, get_name_only, \
-    get_number_chapter_only
+from views import get_all_titles, get_about, get_specific_chapter, get_last_chapter, \
+        get_last_five_chapters, get_title_of_chapter, get_link_adress_of_specific_page
 
 app = FastAPI()
 
@@ -23,14 +23,14 @@ def about():
 
 # recuperer tous nom des chapitres
 @app.get('/chapters/')
-def manga_pages():
-    return get_all_images()
+def all_titles():
+    return get_all_titles()
 
 
 # Recuperer un chapitre
-@app.get('/chapters/{id}/pages/')
-def get_specifique_chapter(id: str = Path(..., description='Add the id to get the a chapter specifique')):
-    return get_specifique(id)
+@app.get('/chapters/{idx}/pages/')
+def specific_chapter(idx: str = Path(..., description='Add the index to get the a chapter specifique')):
+    return get_specific_chapter(idx)
 
 
 # Recuperer le dernier chapter
@@ -39,19 +39,19 @@ def last_chapter():
     return get_last_chapter()
 
 
-@app.get('/chapters/{id}/name/')
-def get_name(id: str = Path(..., description='Add the id to get the chapter name')):
-    return get_name_only(id)
+@app.get('/chapters/{idx}/title/')
+def title_of_chapter(idx: str = Path(..., description='Add the index to get the chapter name')):
+    return get_title_of_chapter(idx)
 
 
-@app.get('/chapters/{id}/pages/{number_chapter}/')
-def get_image_with_number(id: str, number_chapter: str):
-    return get_number_chapter_only(id, number_chapter)
+@app.get('/chapters/{idx}/pages/{number_page}/')
+def link_adress_of_specific_page(idx: str, number_page: str):
+    return get_link_adress_of_specific_page(idx, number_page)
 
 
-@app.get('/last/five/')
+@app.get('/last-five/')
 def last_five():
-    return get_last_five_chapter()
+    return get_last_five_chapters()
 
 
 if __name__ == '__main__':
